@@ -4,6 +4,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
 public class driverFactory {
     public WebDriver driver;
@@ -17,35 +20,33 @@ public class driverFactory {
      * @param browser
      * @return this will return tldriver
      */
+
+    @BeforeMethod
+    @Parameters({"browser"})
     public WebDriver init_driver(String browser) {
 
         System.out.println("browser value is: " + browser);
 
         if (browser.equals("chrome")) {
             WebDriverManager.chromedriver().setup();
-            tlDriver.set(new ChromeDriver());
+            this.driver = new ChromeDriver();
         } else if (browser.equals("IeEdge")) {
             WebDriverManager.edgedriver().setup();
-            tlDriver.set(new EdgeDriver());
+            this.driver = new EdgeDriver();
         } else if (browser.equals("safari")) {
             tlDriver.set(new SafariDriver());
         } else {
             System.out.println("Please pass the correct browser value: " + browser);
         }
 
-        getDriver().manage().deleteAllCookies();
-        getDriver().manage().window().maximize();
-        return getDriver();
+        driver.manage().deleteAllCookies();
+        driver.manage().window().maximize();
+        return driver;
 
     }
-
-    /**
-     * this is used to get the driver with ThreadLocal
-     *
-     * @return
-     */
-    public static synchronized WebDriver getDriver() {
-        return tlDriver.get();
+    @AfterMethod
+    public void tearDown(){
+        driver.close();
     }
-
 }
+

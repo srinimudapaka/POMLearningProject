@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.sql.SQLOutput;
 
-public class LoginPage {
+public class LoginPage extends utilities {
     WebDriver driver;
     //Locators
     private By userEmail = By.cssSelector("input#input-email");
@@ -21,21 +21,26 @@ public class LoginPage {
     }
     //Methods
     public void validateUserEmail() {
-        if (driver.findElement(userEmail).isDisplayed()) {
+        if (visibilityOfElementWait(driver, driver.findElement(userEmail))) {
             System.out.println("Email field is available in Login Page");
         }
     }
 
-    public void enterUserEmail() {
-        if (driver.findElement(userEmail).isDisplayed()) {
-            driver.findElement(userEmail).sendKeys("srinivas.mudapaka@gmail.com");
+    public void enterUserEmail(String emailadress) throws Throwable {
+
+           if (driver.findElement(userEmail).isDisplayed()){
+               type(driver.findElement(userEmail),emailadress);
+           }
         }
+
+    public void enterUserPassword(String password) throws Throwable {
+       // driver.findElement(userPassword).sendKeys("Pravallika@2603");
+        type(driver.findElement(userPassword),password);
     }
-    public void enterUserPassword(){
-        driver.findElement(userPassword).sendKeys("Pravallika@2603");
-    }
-    public void clickLoginBtn(){
-        driver.findElement(loginButton).click();
+    public void clickLoginBtn() throws Throwable {
+      //  driver.findElement(loginButton).click();
+        waitforelementtobeclickable(driver,driver.findElement(loginButton));
+        click(driver.findElement(loginButton));
     }
     public void enterUserPinConfirm(){
         driver.findElement(pinConfirm).sendKeys("0810");

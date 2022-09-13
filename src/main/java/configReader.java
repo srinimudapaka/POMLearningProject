@@ -1,3 +1,5 @@
+import org.testng.annotations.BeforeSuite;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +14,7 @@ public class configReader {
      * @return prop
      */
 
+    @BeforeSuite
     public Properties init_prop() {
         prop = new Properties();
         try {
@@ -24,8 +27,8 @@ public class configReader {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        driverFactory driverfactory = new driverFactory();
-        driverfactory.init_driver(prop.getProperty("browser"));
+        //driverFactory driverfactory = new driverFactory();
+        //driverfactory.init_driver(prop.getProperty("browser"));
         return prop;
     }
 
